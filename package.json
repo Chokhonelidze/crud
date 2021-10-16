@@ -1,0 +1,22 @@
+{
+  "name": "crud1",
+  "version": "1.0.0",
+  "description": "first node server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chokhonelidze/crud.git"
+  },
+  "author": "George Chokhonelidze",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Chokhonelidze/crud/issues"
+  },
+  "homepage": "https://github.com/Chokhonelidze/crud#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
