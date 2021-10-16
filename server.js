@@ -54,9 +54,9 @@ app.put("/", (req, res) => {
     for (let i in data) {
         if (data[i].id == id) {
           data[i] = req.body;
+          res.sendStatus(200);
+          return true;
         }
-        res.sendStatus(200);
-        return true;
       }
       res.sendStatus(400);
 });
