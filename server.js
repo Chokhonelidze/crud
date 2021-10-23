@@ -41,6 +41,7 @@ app.post("/", (req, res) => {
     .collection("cars")
     .find({})
     .sort({ id: -1 })
+    .limit(1)
     .toArray((err, result) => {
       if (err) {
       } else {
