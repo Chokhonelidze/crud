@@ -15,6 +15,7 @@ try {
 
 const express = require("express");
 const { response, request } = require("express");
+const e = require("express");
 const app = express();
 app.use(express.json());
 
@@ -36,36 +37,53 @@ app.get("/", (req, res) => {
 });
 //create
 app.post("/", (req, res) => {
-  con.collection("cars").insertOne(req.body);
-  res.sendStatus(200);
+  con
+    .collection("cars")
+    .find({})
+    .sort({ id: -1 })
+    .toArray((err, result) => {
+      if (err) {
+      } else {
+      
+        if (typeof(result[0]) !== "undefined") {
+          let currentIndex = result[0].id;
+          req.body.id = currentIndex + 1;
+          con.collection("cars").insertOne(req.body);
+          res.sendStatus(200);
+        }
+        else{
+          req.body.id = 1;
+          con.collection("cars").insertOne(req.body);
+          res.sendStatus(200);
+        }
+      }
+    });
+
+
 });
 //DELETE
 app.delete("/", (req, res) => {
-
   let id = req.body.id;
-  con.collection("cars").findOneAndDelete({ id: id },(err,response)=>{
-    if(err){
+  con.collection("cars").findOneAndDelete({ id: id }, (err, response) => {
+    if (err) {
       res.sendStatus(400);
-    }
-    else{
+    } else {
       res.sendStatus(200);
     }
   });
 });
 //UPDATE
 app.put("/", (req, res) => {
-  let id = {'id':req.body.id};
-  let update = {$set:req.body};
-  con.collection('cars').updateOne(id,update,(err,response)=>{
-    if(err){
+  let id = { id: req.body.id };
+  let update = { $set: req.body };
+  con.collection("cars").updateOne(id, update, (err, response) => {
+    if (err) {
       res.sendStatus(400);
       throw err;
-    }
-    else{
+    } else {
       res.sendStatus(200);
     }
-  })
-  
+  });
 });
 
 app.listen(PORT, () => {
