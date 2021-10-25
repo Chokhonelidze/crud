@@ -38,29 +38,31 @@ app.get("/", (req, res) => {
 //create
 app.post("/", (req, res) => {
   con
-    .collection("cars")
+    .collection("indexes")
     .find({})
     .sort({ id: -1 })
     .limit(1)
     .toArray((err, result) => {
       if (err) {
       } else {
-      
-        if (typeof(result[0]) !== "undefined") {
-          let currentIndex = result[0].id;
+        if (typeof result[0] !== "undefined") {
+          let currentIndex = result[0].value;
           req.body.id = currentIndex + 1;
+          con.collection("indexes").updateOne({'id':'cars'},{$set:{'value':req.body.id}},(err,response)=>{
+            if(err){
+              throw err;
+            }
+          });
           con.collection("cars").insertOne(req.body);
           res.sendStatus(200);
-        }
-        else{
+        } else {
           req.body.id = 1;
+          con.collection("indexes").insertOne({ id: "cars", value: 1 });
           con.collection("cars").insertOne(req.body);
           res.sendStatus(200);
         }
       }
     });
-
-
 });
 //DELETE
 app.delete("/", (req, res) => {
