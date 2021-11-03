@@ -1,8 +1,8 @@
 const { MongoClient } = require("mongodb");
+require('dotenv').config();
 
-const uri =
-  "mongodb://admin:cst10b002944@localhost:27017/mydb?retryWrites=true&w=majority";
-
+const uri = process.env.DB;
+console.log(uri);
 var client = new MongoClient(uri);
 
 try {
@@ -23,7 +23,26 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 //READ
-app.get("/", (req, res) => {
+app.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // Request methods you wish to allow
+  res.header('Access-Control-Allow-Methods', 'Authorization,GET,PUT,POST,DELETE,PATCH,OPTIONS');
+
+  // Request headers you wish to allow
+  //res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,text/plain');
+  res.setHeader('Access-Control-Allow-Headers','*');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
+app.get("/owner", (req, res) => {
   con
     .collection("cars")
     .find({})
@@ -36,7 +55,7 @@ app.get("/", (req, res) => {
     });
 });
 //create
-app.post("/", (req, res) => {
+app.post("/owner", (req, res) => {
   con
     .collection("indexes")
     .find({})
@@ -65,7 +84,7 @@ app.post("/", (req, res) => {
     });
 });
 //DELETE
-app.delete("/", (req, res) => {
+app.delete("/owner", (req, res) => {
   let id = req.body.id;
   con.collection("cars").findOneAndDelete({ id: id }, (err, response) => {
     if (err) {
@@ -76,7 +95,7 @@ app.delete("/", (req, res) => {
   });
 });
 //UPDATE
-app.put("/", (req, res) => {
+app.put("/owner", (req, res) => {
   let id = { id: req.body.id };
   let update = { $set: req.body };
   con.collection("cars").updateOne(id, update, (err, response) => {
