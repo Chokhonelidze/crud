@@ -53,20 +53,19 @@ app.use((req, res, next) => {
     con.collection("synk").findOne({ id: id }, (err, res) => {
       if (err) throw err;
       if (res) {
-        current = res.number;
-          if (current < number) {
+         let newNumber = res.number+1;
             if(id && number){
             con
               .collection("synk")
               .updateOne(
                 { id: id },
-                { $set: { number: number } },
+                { $set: { number: newNumber} },
                 (err, res) => {
                   if (err) throw err;
                 }
               );
             }
-          }
+          
       }
       else if (!res) {
         con.collection("synk").insertOne({ id: id, number: number });
@@ -79,7 +78,7 @@ app.use((req, res, next) => {
 app.get("/synk", (req, res) => {
   con
     .collection("synk")
-    .find({})
+    .find()
     .toArray((err, result) => {
       if (err) {
         res.sendStatus(400);
