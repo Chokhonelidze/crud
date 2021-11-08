@@ -44,8 +44,8 @@ app.use(function (req, res, next) {
   next();
 });
 app.use((req, res, next) => {
-  if(req.method == "DELETE"){
-     con.collection('synk').findOneAndDelete({id:req.body.id})
+  if (req.method == "DELETE") {
+    con.collection("synk").findOneAndDelete({ id: req.body.id });
   }
   if (req.method != "GET" && req.method != "OPTIONS") {
     let id = req.body.id;
@@ -53,21 +53,19 @@ app.use((req, res, next) => {
     con.collection("synk").findOne({ id: id }, (err, res) => {
       if (err) throw err;
       if (res) {
-         let newNumber = res.number+1;
-            if(id && number){
-            con
-              .collection("synk")
-              .updateOne(
-                { id: id },
-                { $set: { number: newNumber} },
-                (err, res) => {
-                  if (err) throw err;
-                }
-              );
-            }
-          
-      }
-      else if (!res) {
+        let newNumber = res.number + 1;
+        if (id && number) {
+          con
+            .collection("synk")
+            .updateOne(
+              { id: id },
+              { $set: { number: newNumber } },
+              (err, res) => {
+                if (err) throw err;
+              }
+            );
+        }
+      } else if (!res) {
         con.collection("synk").insertOne({ id: id, number: number });
       }
     });
@@ -89,9 +87,13 @@ app.get("/synk", (req, res) => {
 });
 
 app.get("/owner", (req, res) => {
+  let filter = {};
+  if (req.query.id) {
+    filter = { id: Number(req.query.id) };
+  }
   con
     .collection("cars")
-    .find({})
+    .find(filter)
     .toArray((err, result) => {
       if (err) {
         res.sendStatus(400);
