@@ -8,8 +8,15 @@ router.get("/owner", async (req, res) => {
   if (req.query.id) {
     filter = { id: Number(req.query.id) };
   }
+  try{
   const owners = await owner.find(filter);
-  res.json(owners).sendStatus(204);
+   res.json(owners).status(204);
+   return;
+  }
+  catch{
+     res.sendStatus(404);
+     return;
+  }
 });
 router.post("/owner", async (req, res) => {
   let index = await indexes.findOne({ id: "owners" });
@@ -26,9 +33,11 @@ router.post("/owner", async (req, res) => {
   const save = new owner(obj);
   try {
     await save.save();
-    res.json({ id: save.id }).sendStatus(204);
+     res.json({ id: save.id }).status(204);
+     return
   } catch {
-    res.sendStatus(404);
+     res.sendStatus(404);
+     return
   }
 });
 router.put("/owner", async (req, res) => {
@@ -38,18 +47,22 @@ router.put("/owner", async (req, res) => {
       new: false,
       upset: false,
     });
-    res.send({ id: doc.id }).status(204);
+     res.send({ id: doc.id }).status(204);
+     return
   } catch(e) {
-    res.json().sendStatus(404);
+     res.json().sendStatus(404);
+     return
   }
 });
 router.delete("/owner", async (req, res) => {
   let id = req.body.id;
   try {
     await owner.deleteOne({ id: id });
-    res.sendStatus(204);
+     res.sendStatus(204);
+     return
   } catch {
-    res.status(404);
+     res.status(404);
+     return
     res.send({ error: "can't delete" });
   }
 });
