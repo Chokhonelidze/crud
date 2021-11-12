@@ -44,48 +44,6 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
-app.use((req, res, next) => {
-  if (req.method == "DELETE") {
-    con.collection("synk").findOneAndDelete({ id: req.body.id });
-  }
-  if (req.method != "GET" && req.method != "OPTIONS") {
-    let id = req.body.id;
-    let number = req.body.number;
-    con.collection("synk").findOne({ id: id }, (err, res) => {
-      if (err) throw err;
-      if (res) {
-        let newNumber = res.number + 1;
-        if (id && number) {
-          con
-            .collection("synk")
-            .updateOne(
-              { id: id },
-              { $set: { number: newNumber } },
-              (err, res) => {
-                if (err) throw err;
-              }
-            );
-        }
-      } else if (!res) {
-        con.collection("synk").insertOne({ id: id, number: number });
-      }
-    });
-  }
-  next();
-});
-
-app.get("/synk", (req, res) => {
-  con
-    .collection("synk")
-    .find()
-    .toArray((err, result) => {
-      if (err) {
-        res.sendStatus(400);
-      } else {
-        res.send(result).status(200);
-      }
-    });
-});
 
 app.get("/owner", (req, res) => {
   let filter = {};
