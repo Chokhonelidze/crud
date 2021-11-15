@@ -2,8 +2,8 @@ const mongoose = require("mongoose")
 
 const schema = mongoose.Schema({
     id:Number,
-    address:String,
-    owner:String,
+    address:{type:String,required:true},
+    owner:{type:String,required:true},
     cars :[],
 },
 {
