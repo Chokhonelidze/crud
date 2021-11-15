@@ -7,7 +7,7 @@ const SERVER = process.env.SERVER;
 const routes = require("./routes");
 const mongoose = require("mongoose");
 
-mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
+mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   const app = express();
   app.use(function (req, res, next) {
 	// Website you wish to allow to connect

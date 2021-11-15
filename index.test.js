@@ -1,25 +1,25 @@
-const { it } = require('@jest/globals');
- 
-//model test
-const express = require("express");
+const app = require("./index.js");
 require("dotenv").config();
-const app = express();
-const indexes = require("./models/indexes");
+const DB = process.env.testDB;
+const mongoose = require("mongoose");
+const supertest = require("supertest");
 
-function fowner(data){
-    try{
-    const owner = require("./models/owner");
-    let test = new owner(data);
-    return test;
-    }
-    catch(e){
-        return e.message;
-    }
-}
-
-test("models/owner/ required fields", () => {
-
-    expect(fowner()).toContain("yleo");
+beforeEach((done) => {
+  mongoose.connect(
+    DB,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    () => done()
+  );
+});
+afterAll((done) => {
+  mongoose.connection.dropDatabase(() => {
+    mongoose.connection.close(() => done());
+  });
 });
 
-
+test("POST /api/owner",async ()=>{
+    await supertest(app).post("/api/owner").expect(200).then((response)=>{
+        let id = response.id;
+        expect((id.exists()).toBeTruthy());
+    });
+});
