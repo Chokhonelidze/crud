@@ -23,7 +23,7 @@ router.get("/account" , async (req,res) => {
 
 router.post("/account" , async (req,res) => {
   let accounts = await account.find(req.query.name);
-  if(accounts.length >0) {
+  if(accounts.length === 0) {
     res.json({ error:"name is already used"}).status(400);
     return;
   }
