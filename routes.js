@@ -1,7 +1,78 @@
 const express = require("express");
 const indexes = require("./models/indexes");
 const owner = require("./models/owner");
+const account = require("./models/account");
 const router = express.Router();
+
+router.get("/account" , async (req,res) => {
+  let filter = {};
+  if(req.query.name) {
+    filter = {name:req.query.name, password:req.query.password};
+  }
+  try{
+    const accounts = await account.find(filter);
+    res.json(accounts).status(204);
+    return;
+  }
+  catch{
+    res.sendStatus(404);
+    return;
+  }
+
+});
+
+router.post("/account" , async (req,res) => {
+  let index = await indexes.findOne({ id: "accounts" });
+  if (!index) {
+    index = new indexes({
+      id: "accounts",
+      value: 0,
+    });
+  }
+  index.value = index.value + 1;
+  index.save();
+  let obj = req.body;
+  obj.id = index.value;
+  const save = new account(obj);
+  try {
+    await save.save();
+     res.json({ id: save.id }).status(204);
+     return
+  } catch {
+     res.sendStatus(404);
+     return
+  }
+
+});
+
+router.put("/account",async (req,res) =>{
+  let input = req.body;
+  try {
+    let doc = await account.findOneAndUpdate({ id: input.id }, input, {
+      new: false,
+      upset: false,
+    });
+     res.send({ id: doc.id }).status(204);
+     return
+  } catch(e) {
+     res.json().sendStatus(404);
+     return
+  }
+});
+router.delete("/account", async (req, res) => {
+  let id = req.body.id;
+  try {
+    await account.deleteOne({ id: id });
+     res.sendStatus(204);
+     return
+  } catch {
+     res.status(404);
+     return
+    res.send({ error: "can't delete" });
+  }
+});
+
+
 
 router.get("/owner", async (req, res) => {
   let filter = {};
