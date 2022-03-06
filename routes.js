@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/account" , async (req,res) => {
   let filter = {};
-  if(req.body.name) {
+  if(req.query.name && req.query.password) {
     filter = {name:req.query.name, password:req.query.password};
   }
   try{
