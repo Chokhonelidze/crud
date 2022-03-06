@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/account" , async (req,res) => {
   let filter = {};
   if(req.body.name) {
-    filter = {name:req.body.name, password:req.body.password};
+    filter = {name:req.query.name, password:req.query.password};
   }
   try{
     const accounts = await account.find(filter);
