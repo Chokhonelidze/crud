@@ -23,15 +23,16 @@ router.get("/account" , async (req,res) => {
 
 router.post("/account" , async (req,res) => {
   try{
-  let name = await account.findOne({name:req.body.name},(err,resource)=>{
+    let name = "";
+    await account.find({name:req.body.name},(err,resource)=>{
     if(err){
       res.json({ error:err}).status(401);
       return;
     }
+    if(resource){
+      res.json({ error:"name is already used" }).status(401);
+    }
   });
-  if(name){
-    res.json({ error:"name is already used" }).status(401);
-  }
   let index = await indexes.findOne({ id: "accounts" });
   if (!index) {
     index = new indexes({
