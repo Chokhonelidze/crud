@@ -23,7 +23,11 @@ router.get("/account" , async (req,res) => {
 
 router.post("/account" , async (req,res) => {
   try{
-    
+  let accounts = await account.find({name:req.body.name});
+  if(accounts){
+    res.json({error:"name is already used"}).status(404);
+    return;
+  }
   let index = await indexes.findOne({ id: "accounts" });
   if (!index) {
     index = new indexes({
