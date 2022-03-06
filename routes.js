@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get("/account" , async (req,res) => {
   let filter = {};
-  if(req.query.name) {
-    filter = {name:req.query.name, password:req.query.password};
+  if(req.body.name) {
+    filter = {name:req.body.name, password:req.body.password};
   }
   try{
     const accounts = await account.find(filter);
