@@ -22,7 +22,8 @@ router.get("/account" , async (req,res) => {
 });
 
 router.post("/account" , async (req,res) => {
-
+  try{
+    
   let index = await indexes.findOne({ id: "accounts" });
   if (!index) {
     index = new indexes({
@@ -35,7 +36,7 @@ router.post("/account" , async (req,res) => {
   let obj = req.body;
   obj.id = index.value;
   const save = new account(obj);
-  try{
+
     await save.save();
      res.json({ id: save.id }).status(204);
      return
