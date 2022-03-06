@@ -5,7 +5,7 @@ const schema = mongoose.Schema({
     name:String,
     email:String,
     password:String,
-    balance:Number
+    deposit:Number
 },
 {
     collection : 'accounts'

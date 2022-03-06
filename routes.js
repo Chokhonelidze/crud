@@ -54,7 +54,7 @@ router.post("/account" , async (req,res) => {
 router.put("/account",async (req,res) =>{
   let input = req.body;
   try {
-    let doc = await account.findOneAndUpdate({ name:input.name,password:input.password }, input, {
+    let doc = await account.findOneAndUpdate({ name:input.name,password:input.password}, input, {
       new: false,
       upset: false,
     });
