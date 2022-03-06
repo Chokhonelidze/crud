@@ -48,8 +48,8 @@ router.post("/account" , async (req,res) => {
     await save.save();
      res.json({ id: save.id }).status(204);
      return
-  } catch {
-     res.sendStatus(404);
+  } catch (err){
+     res.json({err:err}).status(404);
      return
   }
 
