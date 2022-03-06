@@ -22,7 +22,13 @@ router.get("/account" , async (req,res) => {
 });
 
 router.post("/account" , async (req,res) => {
-  let name = await account.findOne({name:req.body.name});
+  try{
+  let name = await account.findOne({name:req.body.name},(err,resource)=>{
+    if(err){
+      res.json({ error:err}).status(401);
+      return;
+    }
+  });
   if(name){
     res.json({ error:"name is already used" }).status(401);
   }
@@ -38,7 +44,7 @@ router.post("/account" , async (req,res) => {
   let obj = req.body;
   obj.id = index.value;
   const save = new account(obj);
-  try {
+
     await save.save();
      res.json({ id: save.id }).status(204);
      return
