@@ -61,7 +61,7 @@ router.put("/account",async (req,res) =>{
      res.send({ id: doc.id }).status(204);
      return
   } catch(e) {
-     res.json(e).sendStatus(404);
+     res.json(e).status(404);
      return
   }
 });
