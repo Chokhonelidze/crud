@@ -4,7 +4,7 @@ const schema = mongoose.Schema({
     id:Number,
     name:String,
     email:String,
-    password:{String,select: false},
+    password:String,
     deposit:Number
 },
 {
