@@ -10,7 +10,7 @@ router.get("/account" , async (req,res) => {
     filter = {name:req.query.name, password:req.query.password};
   }
   try{
-    const accounts = await account.find(filter);
+    const accounts = await account.find(filter).exclude('password');
     res.json(accounts).status(204);
     return;
   }
