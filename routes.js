@@ -14,9 +14,9 @@ router.get("/Items", async (req, res) => {
     filter.name = req.query.name;
   }
   try {
-    const items = await items.find(filter);
-    res.json(items).status(204);
-    return;
+    const item = await items.find(filter);
+    res.json(item).status(204);
+    return; 
   } catch {
     res.sendStatus(404);
     return;
@@ -26,14 +26,14 @@ router.get("/Items", async (req, res) => {
 router.post("/Items", async (req, res) => {
   try {
     let filter = {};
-    if (req.query.id) {
-      filter.id = req.query.id;
+    if (req.body.id) {
+      filter.id = req.body.id;
     }
-    if (req.query.name) {
-      filter.name = req.query.name;
+    if (req.body.name) {
+      filter.name = req.body.name;
     }
-    let items = await items.find(filter);
-    if (items.length) {
+    let item = await items.find(filter);
+    if (item.length) {
       res.json({ error: "item is already there" }).status(404);
       return;
     }
@@ -54,7 +54,7 @@ router.post("/Items", async (req, res) => {
     res.json({ id: save.id }).status(204);
     return;
   } catch (err) {
-    res.json({ err: err }).status(404);
+    res.json({ error: err }).status(404);
     return;
   }
 });
@@ -69,7 +69,7 @@ router.put("/Items", async (req, res) => {
       filter.name = req.body.name;
     }
     let doc = await items.findOneAndUpdate(
-      { name: input.name, password: input.password },
+      filter,
       input,
       {
         new: false,
