@@ -6,7 +6,8 @@ const schema = mongoose.Schema({
     img :String,
     stack:Number,
     price:Number,
-    discount:Number
+    discount:Number,
+    info:String
 },
 {
     collection : 'items'
