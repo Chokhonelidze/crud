@@ -7,6 +7,7 @@ const schema = mongoose.Schema({
     stack:Number,
     price:Number,
     discount:Number,
+    weight:Number,
     info:String
 },
 {
