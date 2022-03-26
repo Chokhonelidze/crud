@@ -3,7 +3,41 @@ const indexes = require("./models/indexes");
 const owner = require("./models/owner");
 const account = require("./models/account");
 const items = require("./models/items");
+const sync = require("./models/sync");
 const router = express.Router();
+
+async function runSync(key) {
+  let rand = (lengh = 6) => {
+    return Math.random().toString(20).substring(2, lengh);
+  };
+  try {
+    let syncObj = await sync.findOne({ id: key });
+    if (!syncObj) {
+      syncObj = new sync({
+        id: key,
+        value: 0,
+      });
+    }
+    syncObj.value = rand();
+    syncObj.save();
+  } catch (e) {
+    console.log(e);
+    res.json(e).sendStatus(404);
+  }
+}
+router.get("/sync", async (req, res) => {
+
+  let filter = {};
+  filter.id = req.query.id;
+  try {
+    const value = (await sync.findOne(filter)).value;
+    res.json(value).status(204);
+    return;
+  } catch(e) {
+    res.json(e).status(400);
+    return;
+  }
+});
 
 router.get("/Items", async (req, res) => {
   let filter = {};
@@ -16,7 +50,7 @@ router.get("/Items", async (req, res) => {
   try {
     const item = await items.find(filter);
     res.json(item).status(204);
-    return; 
+    return;
   } catch {
     res.sendStatus(404);
     return;
@@ -25,6 +59,7 @@ router.get("/Items", async (req, res) => {
 
 router.post("/Items", async (req, res) => {
   try {
+    
     let filter = {};
     if (req.body.id) {
       filter.id = req.body.id;
@@ -51,6 +86,7 @@ router.post("/Items", async (req, res) => {
     const save = new items(obj);
 
     await save.save();
+    await runSync('Items');
     res.json({ id: save.id }).status(204);
     return;
   } catch (err) {
@@ -68,14 +104,11 @@ router.put("/Items", async (req, res) => {
     } else {
       filter.name = req.body.name;
     }
-    let doc = await items.findOneAndUpdate(
-      filter,
-      input,
-      {
-        new: false,
-        upset: false,
-      }
-    );
+    let doc = await items.findOneAndUpdate(filter, input, {
+      new: false,
+      upset: false,
+    });
+    await runSync('Items');
     res.send({ id: doc.id }).status(204);
     return;
   } catch (e) {
@@ -87,6 +120,7 @@ router.delete("/Items", async (req, res) => {
   let id = req.body.id;
   try {
     await items.deleteOne({ id: id });
+    await runSync('Items');
     res.sendStatus(204);
     return;
   } catch {
