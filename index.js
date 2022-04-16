@@ -33,7 +33,7 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
     next();
   }
 
-  routes.use(headers);
+  app.use(headers);
 
   
 
