@@ -10,9 +10,8 @@ const mongoose = require("mongoose");
 mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
   const app = express();
 
-
-  app.use(function (req, res, next) {
-    // Website you wish to allow to connect
+  let headers = (req, res, next) => {
+     // Website you wish to allow to connect
     //res.setHeader("Access-Control-Allow-Origin", "https://chokhonelidze.github.io/,http://localhost:5000,http://myhome.smho.site:5000");
     res.setHeader("Access-Control-Allow-Origin", process.env.SERVER);
 
@@ -32,7 +31,11 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
 
     // Pass to next layer of middleware
     next();
-  });
+  }
+
+  routes.use(headers);
+
+  
 
   app.use(express.json());
   app.use("/api", routes);
