@@ -1,0 +1,14 @@
+mongo:
+  image: mongo
+  ports:
+    - "27017:27017"
+  restart: always
+web:
+  build: .
+  ports:
+  - "3000:3000"
+  links:
+  - mongo
+  environment:
+    - DB=mongodb://mongo:27017/app_development
+  command: node index.js
