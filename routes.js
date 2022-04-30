@@ -167,7 +167,7 @@ router.get("/account",authenticateJWT, async (req, res) => {
   }
 });
 
-router.post("/account",authenticateJWT, async (req, res) => {
+router.post("/account", async (req, res) => {
   try {
     let accounts = await account.find({ name: req.body.name });
     if (accounts.length) {
