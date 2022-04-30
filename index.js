@@ -13,7 +13,7 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
   let headers = (req, res, next) => {
      // Website you wish to allow to connect
     //res.setHeader("Access-Control-Allow-Origin", "https://chokhonelidze.github.io/,http://localhost:5000,http://myhome.smho.site:5000");
-    res.setHeader("Access-Control-Allow-Origin", process.env.SERVER);
+    res.setHeader("Access-Control-Allow-Origin", SERVER);
 
     // Request methods you wish to allow
     res.header(
