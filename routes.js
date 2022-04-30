@@ -5,6 +5,28 @@ const account = require("./models/account");
 const items = require("./models/items");
 const sync = require("./models/sync");
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+
+const accessTokenSecret = 'somerandomaccesstoken';
+const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  console.log(`Headers: ${JSON.stringify(req.headers)}`);
+  console.log(`Body: ${JSON.stringify(req.body)}`);
+  if (authHeader) {
+      const token = authHeader.split(' ')[1];
+
+      jwt.verify(token, accessTokenSecret, (err, user) => {
+          if (err) {
+              return res.sendStatus(403);
+          }
+
+          req.user = user;
+          next();
+      });
+  } else {
+      res.sendStatus(401);
+  }
+}
 
 async function runSync(key) {
   let rand = (lengh = 6) => {
@@ -130,7 +152,7 @@ router.delete("/Items", async (req, res) => {
   }
 });
 
-router.get("/account", async (req, res) => {
+router.get("/account",authenticateJWT, async (req, res) => {
   let filter = {};
   if (req.query.name && req.query.password) {
     filter = { name: req.query.name, password: req.query.password };
@@ -145,7 +167,7 @@ router.get("/account", async (req, res) => {
   }
 });
 
-router.post("/account", async (req, res) => {
+router.post("/account",authenticateJWT, async (req, res) => {
   try {
     let accounts = await account.find({ name: req.body.name });
     if (accounts.length) {
@@ -174,7 +196,7 @@ router.post("/account", async (req, res) => {
   }
 });
 
-router.put("/account", async (req, res) => {
+router.put("/account",authenticateJWT, async (req, res) => {
   let input = req.body;
   try {
     let doc = await account.findOneAndUpdate(
@@ -192,7 +214,7 @@ router.put("/account", async (req, res) => {
     return;
   }
 });
-router.delete("/account", async (req, res) => {
+router.delete("/account",authenticateJWT, async (req, res) => {
   let id = req.body.id;
   try {
     await account.deleteOne({ id: id });
