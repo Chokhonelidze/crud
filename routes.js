@@ -152,7 +152,7 @@ router.delete("/Items", async (req, res) => {
   }
 });
 
-router.get("/account",authenticateJWT, async (req, res) => {
+router.get("/account", async (req, res) => {
   let filter = {};
   if (req.query.name && req.query.password) {
     filter = { name: req.query.name, password: req.query.password };
