@@ -7,6 +7,9 @@ const sync = require("./models/sync");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger.json');
+
 const accessTokenSecret = 'somerandomaccesstoken';
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
