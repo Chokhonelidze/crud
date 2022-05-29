@@ -15,6 +15,10 @@
         {
             "name": "Items",
             "description": "this is items"
+        },
+        {
+            "name": "Accounts",
+            "description": "this is accounts"
         }
     ],
     "schemes": [
@@ -30,7 +34,7 @@
         "/Items" : {
             "get": {
                 "tags" : ["Items"],
-                "summary": "Get all Items",
+                "summary": "Get All Items",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -40,9 +44,45 @@
                      }
                 }
             }
+        },
+        "/account" : {
+            "get": {
+                "tags": ["Accounts"],
+                "summary": "Get All Accounts",
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref": "#/definitions/Accounts"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "Accounts": {
+            "properties": {
+                "id": {
+                    "type":"integer",
+                    "uniqueItems":true
+                },
+                "name": {
+                    "type":"string",
+                    "uniqueItems":true
+                },
+                "email": {
+                    "type":"string"
+                },
+                "password": {
+                    "type":"string"
+                },
+                "deposit":{
+                    "type":"integer"
+                }
+
+            }
+        },
         "Items": {
             "required": ["name"],
             "properties": {
