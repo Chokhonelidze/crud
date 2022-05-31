@@ -1,0 +1,186 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Shopping Card Project CRUD",
+        "description": "this is shopping card endpoints",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "Items",
+            "description": "API endpoints for Items"
+        },
+        {
+            "name": "API endpoints for Accounts",
+            "description": "t"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes":[
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": { 
+        "/Items" : {
+            "get": {
+                "tags" : ["Items"],
+                "summary": "Get All Items",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Items"
+                        }
+                     }
+                }
+            }
+        },
+        "/account" : {
+            "get": {
+                "tags": ["Accounts"],
+                "summary": "Get All Accounts",
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref": "#/definitions/Accounts"
+                        }
+                    }
+                }
+            },
+            "post" : {
+                "tags": ["Accounts"],
+                "summary": "Insert new account",
+                "consumes":["application/json"],
+                "parameters": [
+                    {
+                        "in":"body",
+                        "name": "Add new Account",
+                        "description": "Adds new Account",
+                        "schema": {
+                            "$ref": "#/definitions/Accounts"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/definitions/Accounts"
+                        }
+                    }
+                }
+            },
+            "put" : {
+                "tags": ["Accounts"],
+                "summary": "Update an account",
+                "consumes":["application/json"],
+                "parameters": [
+                    {
+                        "in":"body",
+                        "name": "Add new Account",
+                        "description": "Adds new Account",
+                        "schema": {
+                            "$ref": "#/definitions/Accounts"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/definitions/Accounts"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Accounts"],
+                "summary": "Delete an account",
+                "consumes":["application/json"],
+                "parameters": [
+                    {
+                        "in":"body",
+                        "name": "Delete",
+                        "description": "Deletes the account",
+                        "schema": {
+                            "$ref":"#/definitions/Accounts"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/definitions/Accounts"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Accounts": {
+            "properties": {
+                "id": {
+                    "type":"integer",
+                    "uniqueItems":true
+                },
+                "name": {
+                    "type":"string",
+                    "uniqueItems":true
+                },
+                "email": {
+                    "type":"string"
+                },
+                "password": {
+                    "type":"string"
+                },
+                "deposit":{
+                    "type":"integer"
+                }
+
+            }
+        },
+        "Items": {
+            "required": ["name"],
+            "properties": {
+                "id": {
+                    "type":"integer",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type":"string"
+                },
+                "img": {
+                    "type":"string"
+                },
+                "stack": {
+                    "type":"integer"
+                },
+                "price": {
+                    "type":"integer"
+                },
+                "discount": {
+                    "type":"integer"
+                },
+                "weight": {
+                  "type":"integer"
+                },
+                "info": {
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

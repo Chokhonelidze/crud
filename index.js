@@ -6,6 +6,7 @@ const SERVER = process.env.SERVER;
 
 const routes = require("./routes");
 const mongoose = require("mongoose");
+const { application } = require("express");
 
 mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
   const app = express();
@@ -42,7 +43,9 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
 
   app.use(headers);
 
-  
+  app.get("/",(req,res)=>{
+  res.redirect('/api/api-docs');
+  });
 
   app.use(express.json());
   app.use("/api", routes);
