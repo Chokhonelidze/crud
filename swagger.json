@@ -14,11 +14,11 @@
     "tags": [
         {
             "name": "Items",
-            "description": "this is items"
+            "description": "API endpoints for Items"
         },
         {
-            "name": "Accounts",
-            "description": "this is accounts"
+            "name": "API endpoints for Accounts",
+            "description": "t"
         }
     ],
     "schemes": [
@@ -54,6 +54,75 @@
                         "description": "OK",
                         "schema":{
                             "$ref": "#/definitions/Accounts"
+                        }
+                    }
+                }
+            },
+            "post" : {
+                "tags": ["Accounts"],
+                "summary": "Insert new account",
+                "consumes":["application/json"],
+                "parameters": [
+                    {
+                        "in":"body",
+                        "name": "Add new Account",
+                        "description": "Adds new Account",
+                        "schema": {
+                            "$ref": "#/definitions/Accounts"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/definitions/Accounts"
+                        }
+                    }
+                }
+            },
+            "put" : {
+                "tags": ["Accounts"],
+                "summary": "Update an account",
+                "consumes":["application/json"],
+                "parameters": [
+                    {
+                        "in":"body",
+                        "name": "Add new Account",
+                        "description": "Adds new Account",
+                        "schema": {
+                            "$ref": "#/definitions/Accounts"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/definitions/Accounts"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Accounts"],
+                "summary": "Delete an account",
+                "consumes":["application/json"],
+                "parameters": [
+                    {
+                        "in":"body",
+                        "name": "Delete",
+                        "description": "Deletes the account",
+                        "schema": {
+                            "$ref":"#/definitions/Accounts"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema":{
+                            "$ref":"#/definitions/Accounts"
                         }
                     }
                 }
