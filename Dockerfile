@@ -7,7 +7,7 @@ COPY index.js /app/index.js
 ADD /models /app/models
 COPY package.json /app/package.json
 RUN npm install
-
+COPY swagger.json /app/swagger.json
 COPY routes.js /app/routes.js
 
 EXPOSE 3000

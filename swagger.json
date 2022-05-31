@@ -17,8 +17,8 @@
             "description": "API endpoints for Items"
         },
         {
-            "name": "API endpoints for Accounts",
-            "description": "t"
+            "name": "Accounts",
+            "description": "API endpoints for Accounts"
         }
     ],
     "schemes": [

@@ -2,18 +2,17 @@ const express = require("express");
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 const DB = process.env.DB;
-const SERVER = process.env.SERVER;
+const SERVER = process.env.SERVER?process.env.SERVER:'';
 
 const routes = require("./routes");
 const mongoose = require("mongoose");
-const { application } = require("express");
 
 mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
   const app = express();
   const corsWhitelist = [
     'http://localhost:5000',
     'http://localhost:5001',
-     process.env.SERVER
+     SERVER
     ];
 
   let headers = (req, res, next) => {
@@ -42,11 +41,9 @@ mongoose.connect(DB, { useNewUrlParser: true }).then(() => {
   }
 
   app.use(headers);
-
   app.get("/",(req,res)=>{
-  res.redirect('/api/api-docs');
+  res.redirect("/api/api-docs/");
   });
-
   app.use(express.json());
   app.use("/api", routes);
   //READ
