@@ -148,6 +148,9 @@
                 },
                 "deposit":{
                     "type":"integer"
+                },
+                "role": {
+                    "type":"string"
                 }
 
             }
